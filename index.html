@@ -71,7 +71,14 @@ html{scroll-behavior:smooth;scroll-padding-top:76px}body{background:var(--paper)
 @media(max-width:760px){.hero-companions{width:145px;right:calc(50% - 72px);bottom:22px;transform:rotate(2deg)}.confess-companions{width:87px;top:26px;right:14px}.letter-peek{width:60px;left:16px;top:70px}.result-sticker{width:116px;margin-top:18px}.mood-puppy{width:72px}.thought-puppy{width:82px}}
 @media(prefers-reduced-motion:reduce){.result-sticker .love-sticker,.mood-puppy{animation:none!important}}
 
-</style></head>
+</style><style id="capybara-celebration-style">
+.result-companions{display:flex;justify-content:center;align-items:center;gap:24px;max-width:470px;margin:20px auto 0}
+.result-companions .result-sticker{width:125px;margin:0;flex:0 1 125px}
+.result-capybara{width:220px;flex:0 1 220px;min-width:0;isolation:isolate}
+.result-capybara img{border-radius:24px;box-shadow:0 10px 25px #a48e9830;animation-delay:-1.2s}
+@media(max-width:600px){.result-companions{gap:18px;max-width:330px}.result-companions .result-sticker{width:100px;flex-basis:100px}.result-capybara{width:175px;flex-basis:175px}.result-capybara img{border-radius:19px}}
+</style>
+</head>
 <body>
 <header><div class="brand" aria-label="Amour 爱">AMOUR.</div><nav aria-label="章节导航"><a href="#hero">序言</a><a href="#letter">情书</a><a href="#confess">表白</a></nav><button class="quiet" id="editButton">落笔 <span>↗</span></button></header>
 <main>
@@ -108,7 +115,7 @@ html{scroll-behavior:smooth;scroll-padding-top:76px}body{background:var(--paper)
   <div id="thoughtPanel" hidden><div class="thought-puppy"><img class="puppy-cameo" data-letter-asset src="assets/shy-puppy.webp" width="300" height="297" alt="红头发小狗的表情"></div><p>好呀，慢慢想。</p><button type="button" id="keepThinking" class="secondary">再想想</button><button type="button" id="thoughtYes" class="open">我愿意 ♡</button></div>
   <div id="yesResult" hidden><h3 id="resultTitle" tabindex="-1"><span aria-hidden="true">🎉</span> 太好了!!! <span aria-hidden="true">🎉</span></h3>
   <div class="result-lines"><p>从今天起，我们一起去看遍所有风景</p><p>一起去坐浪漫的三号线</p><p>一起当老吃家</p><p>一起耍起</p><p>一起把往后的每一个日子</p><p>都过得闪闪发光 <span aria-hidden="true">♥</span></p></div>
-  <div class="result-hearts" aria-hidden="true"><span>♥</span><span>♥</span><span>♥</span></div><div class="result-sticker"><img class="love-sticker" data-letter-asset src="assets/happy-orange.webp" width="334" height="365" alt="开心跳起来的黄色小伙伴"></div><p class="result-script">我＆你</p>
+  <div class="result-hearts" aria-hidden="true"><span>♥</span><span>♥</span><span>♥</span></div><div class="result-companions"><div class="result-sticker"><img class="love-sticker" data-letter-asset src="assets/happy-orange.webp" width="334" height="365" alt="开心跳起来的黄色小伙伴"></div><div class="result-capybara"><img class="love-sticker" data-letter-asset src="assets/capybara-love.png" width="1236" height="1004" alt="卡皮巴拉拿着爱心弓箭，向你发射喜欢"></div></div><p class="result-script">我＆你</p>
   <button type="button" id="replayCountdown" class="quiet">再放一次烟花 ✨</button><button id="againButton" class="quiet">回到开头 ↑</button></div>
 </section></main>
 <footer><span>我＆你</span><span aria-hidden="true">♡</span></footer>
@@ -415,9 +422,9 @@ html{scroll-behavior:smooth;scroll-padding-top:76px}body{background:var(--paper)
     const width = innerWidth, height = innerHeight, mobile = width < 760 || reduceMotion;
     const dpr = Math.min(devicePixelRatio || 1, 1.5);
     canvas.width = width * dpr; canvas.height = height * dpr; ctx.scale(dpr, dpr);
-    const colors = ['#b875cf', '#ed87ac', '#d9ad54', '#9780d6', '#66b5b7'];
+    const colors = ['#c16fe3', '#ff82b0', '#f4c75e', '#aa88f0', '#68cace'];
     const heartScale = Math.min(width * .023, height * .023, 16);
-    const ring = Array.from({ length: mobile ? 120 : 190 }, (_, i, list) => i);
+    const ring = Array.from({ length: reduceMotion ? 120 : mobile ? 144 : 220 }, (_, i, list) => i);
     // Parameterized heart; its scale follows the shorter screen dimension.
     const heart = ring.map((_, i) => {
       const t = i / ring.length * Math.PI * 2;
@@ -425,7 +432,7 @@ html{scroll-behavior:smooth;scroll-padding-top:76px}body{background:var(--paper)
         y: height * .44 - (13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t)) * heartScale,
         size: 2 + Math.random() * 3.2, color: colors[i % 4], drift: (Math.random() - .5) * 90 };
     });
-    const paper = Array.from({ length: mobile ? 50 : 95 }, (_, i) => ({
+    const paper = Array.from({ length: reduceMotion ? 40 : mobile ? 58 : 105 }, (_, i) => ({
       x: Math.random() * width, y: -Math.random() * height, speed: 45 + Math.random() * 75,
       sway: 15 + Math.random() * 40, phase: Math.random() * 6.28,
       size: 3 + Math.random() * 4, color: colors[i % 5], heart: i % 4 === 0
@@ -440,31 +447,32 @@ html{scroll-behavior:smooth;scroll-padding-top:76px}body{background:var(--paper)
     function draw(now) {
       if (stopped) return;
       const t = (now - started) / 1000;
-      if (t > 8 || document.hidden) { stop(); return; }
+      if (t > 8.8 || document.hidden) { stop(); return; }
       frameId = requestAnimationFrame(draw);
       if (now - last < (mobile ? 30 : 16)) return;
       last = now; ctx.clearRect(0, 0, width, height);
-      const fade = Math.min(1, (8 - t) / 1.6);
+      const fade = Math.min(1, (8.8 - t) / 1.8);
       if (t < 4.8) {
         const ease = 1 - Math.pow(1 - Math.min(1, t / 1.1), 3);
         const scatter = Math.max(0, t - 3.1), pulse = 1 + Math.sin(t * 4) * .025;
         heart.forEach(p => {
-          ctx.globalAlpha = Math.max(0, 1 - scatter / 1.7) * .85;
-          ctx.fillStyle = p.color; ctx.shadowColor = p.color; ctx.shadowBlur = 6;
+          ctx.globalAlpha = Math.max(0, 1 - scatter / 1.7) * .95;
+          ctx.fillStyle = p.color; ctx.shadowColor = p.color; ctx.shadowBlur = reduceMotion ? 6 : 9;
           const x = width/2 + (p.x - width/2) * ease * pulse + p.drift * scatter;
           const y = height*.44 + (p.y - height*.44) * ease * pulse - scatter * 40;
           ctx.beginPath(); ctx.arc(x, y, p.size, 0, Math.PI * 2); ctx.fill();
         });
       }
       ctx.shadowBlur = 0;
-      const wave = Math.floor(t / .95);
-      if (wave !== burst && wave < 7) {
+      const wave = Math.floor(t / (reduceMotion ? .95 : .85));
+      if (wave !== burst && wave < (reduceMotion ? 7 : 8)) {
         burst = wave;
         const x = width * (.26 + Math.random() * .48), y = height * (.20 + Math.random() * .28);
-        const radius = Math.min(width * .145, height * .12, 105);
+        const radius = Math.min(width * .165, height * .14, 120);
         rockets.push({ x, y, born:t, exploded:false, color:colors[wave%5] });
-        for (let i = 0; i < (mobile ? 30 : 44); i++) {
-          const angle = i / (mobile ? 30 : 44) * Math.PI * 2, speed = radius * (.45 + Math.random() * .45);
+        const sparkCount = reduceMotion ? 30 : mobile ? 38 : 58;
+        for (let i = 0; i < sparkCount; i++) {
+          const angle = i / sparkCount * Math.PI * 2, speed = radius * (.55 + Math.random() * .50);
           sparks.push({ x, y, vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed, born: t + .55, color: colors[i%5] });
         }
       }
@@ -480,12 +488,12 @@ html{scroll-behavior:smooth;scroll-padding-top:76px}body{background:var(--paper)
       for (let i = sparks.length - 1; i >= 0; i--) {
         const p = sparks[i], age = t - p.born;
         if (age<0)continue;
-        if (age > 1.65) { sparks.splice(i, 1); continue; }
-        ctx.globalAlpha = (1 - age / 1.65) * fade; ctx.strokeStyle = p.color; ctx.fillStyle=p.color;ctx.lineWidth = 2.3;
-        ctx.shadowColor=p.color;ctx.shadowBlur=7;
+        if (age > 1.9) { sparks.splice(i, 1); continue; }
+        ctx.globalAlpha = (1 - age / 1.9) * fade; ctx.strokeStyle = p.color; ctx.fillStyle=p.color;ctx.lineWidth = 2.3;
+        ctx.shadowColor=p.color;ctx.shadowBlur=reduceMotion ? 7 : 11;
         const x=p.x+p.vx*age,y=p.y+p.vy*age+12*age*age;
-        ctx.beginPath(); ctx.moveTo(p.x + p.vx * Math.max(0, age-.11), p.y + p.vy * Math.max(0, age-.11) + 12 * age * age);
-        ctx.lineTo(x,y); ctx.stroke();ctx.beginPath();ctx.arc(x,y,1.7,0,Math.PI*2);ctx.fill();
+        ctx.beginPath(); ctx.moveTo(p.x + p.vx * Math.max(0, age-.15), p.y + p.vy * Math.max(0, age-.15) + 12 * age * age);
+        ctx.lineTo(x,y); ctx.stroke();ctx.beginPath();ctx.arc(x,y,reduceMotion ? 1.7 : 2,0,Math.PI*2);ctx.fill();
       }
       ctx.shadowBlur=0;
       paper.forEach(p => {
