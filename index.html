@@ -78,9 +78,16 @@ html{scroll-behavior:smooth;scroll-padding-top:76px}body{background:var(--paper)
 .result-capybara img{border-radius:24px;box-shadow:0 10px 25px #a48e9830;animation-delay:-1.2s}
 @media(max-width:600px){.result-companions{gap:18px;max-width:330px}.result-companions .result-sticker{width:100px;flex-basis:100px}.result-capybara{width:175px;flex-basis:175px}.result-capybara img{border-radius:19px}}
 </style>
+<style id="story-style">
+header nav a{white-space:nowrap}
+.story-chapter{min-height:calc(100svh - 76px);padding:70px 24px 80px;background:linear-gradient(160deg,#f6edf9,#fcf7fa 65%,#f2e8f7)}
+.story-content{max-width:820px;min-height:280px;margin:40px auto 0}
+@media(max-width:760px){.story-chapter{min-height:calc(100svh - 65px);padding:50px 22px 60px}}
+@media(max-width:600px){header{gap:12px}header .brand{display:none}header nav{flex:1;justify-content:center;gap:clamp(10px,3vw,18px)}header nav a{font-size:clamp(15px,4vw,17px);letter-spacing:.5px}header #editButton{flex-shrink:0}}
+</style>
 </head>
 <body>
-<header><div class="brand" aria-label="Amour 爱">AMOUR.</div><nav aria-label="章节导航"><a href="#hero">序言</a><a href="#letter">情书</a><a href="#confess">表白</a></nav><button class="quiet" id="editButton">落笔 <span>↗</span></button></header>
+<header><div class="brand" aria-label="Amour 爱">AMOUR.</div><nav aria-label="章节导航"><a href="#hero">序言</a><a href="#letter">情书</a><a href="#confess">表白</a><a href="#story">我们的故事</a></nav><button class="quiet" id="editButton">落笔 <span>↗</span></button></header>
 <main>
 <section id="hero" class="romance-hero">
   <div class="starfield" aria-hidden="true"></div><div class="scene-moon" aria-hidden="true"></div>
@@ -117,6 +124,10 @@ html{scroll-behavior:smooth;scroll-padding-top:76px}body{background:var(--paper)
   <div class="result-lines"><p>从今天起，我们一起去看遍所有风景</p><p>一起去坐浪漫的三号线</p><p>一起当老吃家</p><p>一起耍起</p><p>一起把往后的每一个日子</p><p>都过得闪闪发光 <span aria-hidden="true">♥</span></p></div>
   <div class="result-hearts" aria-hidden="true"><span>♥</span><span>♥</span><span>♥</span></div><div class="result-companions"><div class="result-sticker"><img class="love-sticker" data-letter-asset src="assets/happy-orange.webp" width="334" height="365" alt="开心跳起来的黄色小伙伴"></div><div class="result-capybara"><img class="love-sticker" data-letter-asset src="assets/capybara-love.png" width="1236" height="1004" alt="卡皮巴拉拿着爱心弓箭，向你发射喜欢"></div></div><p class="result-script">我＆你</p>
   <button type="button" id="replayCountdown" class="quiet">再放一次烟花 ✨</button><button id="againButton" class="quiet">回到开头 ↑</button></div>
+</section>
+<section id="story" class="story-chapter" aria-labelledby="storyTitle">
+  <div class="chapter-heading"><span aria-hidden="true">♡</span><h2 id="storyTitle">我们的故事</h2></div>
+  <div id="storyContent" class="story-content"><!-- 我们的故事，留待以后慢慢补上。 --></div>
 </section></main>
 <footer><span>我＆你</span><span aria-hidden="true">♡</span></footer>
 <dialog id="editor" aria-labelledby="editorTitle"><form id="editForm"><div class="dialog-head"><h2 id="editorTitle">把心意写下来</h2><button type="button" class="close" id="closeEditor" aria-label="关闭编辑">×</button></div><p class="edit-note">解锁后的心意，在这里慢慢写。<br>保存到此浏览器不会更新在线页面；下载可带走一份加密情书。</p><label for="toInput">写给谁</label><input id="toInput" maxlength="80" autocomplete="off" placeholder="称呼，可留空"><label for="bodyInput">你的情书</label><textarea maxlength="100000" id="bodyInput" placeholder="从这里，写下第一句话……"></textarea><label for="fromInput">落款</label><input id="fromInput" maxlength="80" autocomplete="off" placeholder="你的名字，可留空"><div class="form-actions"><button class="open" type="submit">保存并预览 ↗</button><button class="secondary" id="downloadButton" type="button">下载情书网页 ↓</button></div><p id="downloadStatus">下载的情书仍需输入同一密码，照片会随信附上。</p></form></dialog>
@@ -629,7 +640,29 @@ html{scroll-behavior:smooth;scroll-padding-top:76px}body{background:var(--paper)
   function widthSafe(){return Math.max(15,window.innerWidth-130);}
   $('againButton').addEventListener('click',()=>{$('hero').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});});
   document.addEventListener('click',e=>{if(!e.target.closest('button,input,textarea,a,dialog'))hearts(e.clientX,e.clientY,1);});
-  if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting)document.querySelectorAll('header nav a').forEach(a=>a.classList.toggle('active',a.hash==='#'+entry.target.id));if(entry.target.id==='confess'&&!entry.isIntersecting)resetRejectPosition();});},{rootMargin:'-15% 0px -45% 0px'});['hero','letter','confess'].forEach(id=>observer.observe($(id)));}
+  const chapterIds=['hero','letter','confess','story'];
+  const chapterLinks=[...document.querySelectorAll('header nav a')];
+  let activeChapter='',navigationQueued=false;
+  function updateChapterNavigation(){
+    const readingLine=Math.max(document.querySelector('header').getBoundingClientRect().bottom,innerHeight*.3);
+    const current=[...chapterIds].reverse().find(id=>$(id).getBoundingClientRect().top<=readingLine)||chapterIds[0];
+    if(current===activeChapter)return;
+    if(activeChapter==='confess'&&current!=='confess')resetRejectPosition();
+    activeChapter=current;
+    chapterLinks.forEach(link=>{
+      const active=link.hash==='#'+current;
+      link.classList.toggle('active',active);
+      if(active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');
+    });
+  }
+  function queueChapterNavigation(){
+    if(navigationQueued)return;
+    navigationQueued=true;
+    requestAnimationFrame(()=>{navigationQueued=false;updateChapterNavigation();});
+  }
+  window.addEventListener('scroll',queueChapterNavigation,{passive:true});
+  window.addEventListener('resize',queueChapterNavigation);
+  updateChapterNavigation();
 
   lock();
 })();
