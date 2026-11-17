@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="370" viewBox="0 0 220 370" fill="none">
+  <defs>
+    <linearGradient id="petal" x1="44" y1="30" x2="164" y2="152" gradientUnits="userSpaceOnUse"><stop stop-color="#c48c93"/><stop offset="1" stop-color="#895365"/></linearGradient>
+    <pattern id="etch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><path d="M0 0v5" stroke="#664c4e" stroke-width=".5" opacity=".25"/></pattern>
+    <g id="bloom" stroke="#79505c" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 14C-60 0-52-48-15-45C7-77 49-52 47-26C88 0 52 50 19 43C-12 64-46 46-40 20Z" fill="url(#petal)"/>
+      <path d="M0 14C-60 0-52-48-15-45C7-77 49-52 47-26C88 0 52 50 19 43C-12 64-46 46-40 20Z" fill="url(#etch)"/>
+      <path d="M-15-45C-44-12-22 13 0 14M47-26C15-40-2-15 0 14M19 43C41 13 27-3 0 14M-40 20C-18 36-1 34 0 14" stroke="#ecd0cb" stroke-width="1.3"/>
+      <path d="M-18-13C-5-38 27-27 29-7C43 15 10 35-5 22C-24 24-35 0-18-13Z" fill="#b67b88"/>
+      <path d="M-18-13C-8 1 0 12 15 11C28 7 22-12 8-14C-5-17-9-4 0 3C8 11 16 0 8-4" stroke="#e4c0ba" stroke-width="1.5"/>
+      <path d="M-4-1C-1-11 12-9 14-2L6 8Z" fill="#774657"/>
+      <path d="M-34-22Q-39-4-25 5M30-34Q49-21 37-7M-20 35Q-1 48 10 31M40 8Q53 24 31 29" stroke="#f1d4c9" opacity=".6"/>
+    </g>
+  </defs>
+  <g stroke="#7a806d" stroke-width="1.2" stroke-linecap="round"><path d="M70 368C80 280 158 205 126 101"/><path d="M105 282C55 235 47 207 55 160M118 243C158 248 178 214 179 182"/></g>
+  <g fill="#a8aa91" stroke="#7d826c" stroke-width=".8"><path d="M106 283Q41 290 37 238Q88 230 106 283Z"/><path d="M130 204Q190 186 190 143Q137 145 130 204Z"/><path d="M90 304Q133 317 150 276Q112 268 90 304Z"/><path d="M72 240Q28 230 23 194Q67 195 72 240Z"/><path d="M130 162Q88 160 88 120Q126 122 130 162Z"/></g>
+  <g stroke="#e6ddbe" stroke-width=".8" opacity=".8"><path d="M40 240L101 278M132 200L185 149M93 303L145 279M27 198L68 235M92 125L128 157"/><path d="M65 259l-5-15m22 29l-6-23m70-64l15-2m-5-14l18-2m-58 121l8 10m-14-6l-1-13"/></g>
+  <use href="#bloom" transform="translate(127 95) rotate(18) scale(.87)"/>
+  <use href="#bloom" transform="translate(57 169) rotate(-25) scale(.52)"/>
+  <use href="#bloom" transform="translate(179 191) rotate(15) scale(.37)"/>
+</svg>

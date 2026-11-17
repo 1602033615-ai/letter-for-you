@@ -164,7 +164,7 @@
     $('memoryRail').style.setProperty('--progress',`${index/6*100}%`);
     const primary=m.media[m.cover];
     let secondaryIndex=m.media.findIndex((item,i)=>i!==m.cover&&item.type==='image');
-    if(index===1) secondaryIndex=3;
+    if(index===1) secondaryIndex=4;
     const secondary=m.media[secondaryIndex];
     const photo=(item,which,mediaIndex,label)=>`<button type="button" class="memory-photo ${which}" data-label="${escape(label)}" data-open-media="${mediaIndex}" aria-label="查看${escape(item.caption)}${item.type==='video'?'，视频':''}"><span class="photo-wrap"><img src="${asset(item.type==='video'?item.poster:item.src)}" width="${item.width||1280}" height="${item.height||960}" alt="${escape(item.caption)}" decoding="async"></span></button>`;
     $('memoryStage').classList.remove('memory-enter');
