@@ -3,6 +3,7 @@
   const root = document.getElementById('storyContent');
   const memories = JSON.parse(document.getElementById('our-journey-data').textContent);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let mediaAnimation = null;
   const assetBase = new URL('assets/story/', location.protocol === 'file:' ? 'https://1602033615-ai.github.io/letter-for-you/' : document.baseURI);
   const asset = name => new URL(name, assetBase).href;
   const escape = value => String(value).replace(/[&<>"']/g, x => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
@@ -215,10 +216,18 @@
     if(video){video.pause();video.removeAttribute('src');video.load();}
   }
   function showMedia(index) {
+    mediaAnimation?.cancel();
     stopVideo();selectedMedia=index;
     const m=detailMemory||memories[active],item=m.media[index],view=$('storyMediaView');
     const arrows=`<button type="button" class="media-arrow prev" aria-label="上一张照片或视频" ${index===0?'disabled':''}>‹</button><button type="button" class="media-arrow next" aria-label="下一张照片或视频" ${index===m.media.length-1?'disabled':''}>›</button>`;
     view.innerHTML=(item.type==='video'?`<video controls playsinline preload="metadata" poster="${asset(item.poster)}" src="${asset(item.src)}" aria-label="${escape(item.caption)}"></video>`:`<img src="${asset(item.src)}" alt="${escape(item.caption)}" width="${item.width}" height="${item.height}" decoding="async">`)+arrows;
+    const content=view.querySelector(item.type==='video'?'video':'img');
+    const revealMedia=()=>{
+      if(matchMedia('(prefers-reduced-motion: reduce)').matches || !content.isConnected) return;
+      mediaAnimation=content.animate([{opacity:0,transform:'translateX(8px)'},{opacity:1,transform:'translateX(0)'}],{duration:420,easing:'cubic-bezier(.2,.7,.2,1)'});
+    };
+    if(item.type==='image'&&!content.complete) content.addEventListener('load',revealMedia,{once:true});
+    else revealMedia();
     view.querySelector('.prev').addEventListener('click',()=>showMedia(Math.max(0,selectedMedia-1)));
     view.querySelector('.next').addEventListener('click',()=>showMedia(Math.min(m.media.length-1,selectedMedia+1)));
     view.querySelector(item.type==='video'?'video':'img').addEventListener('error',()=>{

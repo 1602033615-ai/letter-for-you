@@ -10,7 +10,7 @@ ASSETS.mkdir(parents=True, exist_ok=True)
 
 meta = [
     ('第一次', '10.31', '初见，雨里也很近', '南开校园 · 滨江路', '虽说有些坎坷两人也有些拘束，但跟你在一块就觉得很放松很舒服。', '从一点点拘束，到舍不得说再见。', 0,
-     ['第一次一起出门', '地铁里的你', '一起带走的小纪念']),
+     ['第一次一起出门', '地铁站里的你', '一起带走的小纪念']),
     ('第二次', '11.05', '突然出现的惊喜', '西南村 · 天工校园', '比上一次感觉轻松多了呢。', '想见你，所以提前出现在你的世界里。', 2,
      ['镜头里的小表情', '那天的聊天记录', '秋天的校园和你', '老吃家的螺蛳粉', '把影子也拍在一起']),
     ('第三次', '11.09', '把生日心意收好', '天工食堂 · 小吃街', '吃啥不重要，跟你吃才重要。', '礼物和信，都被我认真放进了心里。', 2,
@@ -20,7 +20,7 @@ meta = [
     ('第五次', '11.12', '把温暖送到你手里', '栗子 · 暖宝宝', '你的暖宝宝真暖和，握了一路，第二天还暖着呢。', '不能替你承担的，就用陪伴慢慢抱住。', 1,
      ['带给你的投喂', '手心里的暖宝宝']),
     ('第六次', '11.14', '越来越像真实的我们', '图书馆 · 校园跑 · 艺缘中心', '我也觉得，好像不能再等太久了，有点沦陷了。', '在你身边，慢慢变成最真实的自己。', 3,
-     ['一起消磨的小日常', '镜头里的我们', '偷拍认真玩头发的你', '又一次一起吃饭', '两个老吃家的快乐']),
+     ['一起消磨的小日常', '镜头里的我们', '偷拍被四坤折磨的你', '又一次一起吃饭', '偷偷记录认真玩头发的你']),
     ('第七次', '11.16', '普通一天，也被你治愈', '西南村 · 图书馆 · 711', '我很幸运能碰到一个能包容我，让我做自己的女孩。', '见面不必每次都热闹，安心也很珍贵。', 3,
      ['在图书馆，偷偷准备这份惊喜', '夜里的校园', '中午的过桥米线', '被你教会的地锅鸡吃法']),
 ]
@@ -54,6 +54,8 @@ for number, (prefix, date, title, place, quote, intro, cover, captions) in enume
         media.append({'src':name, 'type':'video', 'poster':media[0]['src'], 'caption':f'那天的小视频 · {index+1}'})
         manifest[name]={'meeting':number,'source':path.name,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
     text=next(folder.glob('*.txt')).read_text(encoding='utf-8-sig').strip()
+    if number == 7:
+        text = text.replace('因为今天问我确实有点人机', '因为今天的我真的有点人机')
     memories.append(dict(number=number,date=date,title=title,place=place,quote=quote,intro=intro,cover=cover,text=text,media=media))
 
 # Only remove generated meeting assets that no longer occur in the source folder.

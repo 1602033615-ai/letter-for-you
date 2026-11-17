@@ -206,6 +206,31 @@ html,body{background:#fffaf0}body:before{opacity:.025}button:focus-visible,a:foc
 @media(prefers-reduced-motion:reduce){.starfield,.intro-particles,.story-atmosphere{display:none}.personal-sticker{filter:none}.answer-buttons #noBtn.just-jumped{animation:none}.heart-bloom{animation:none}}
 
 </style>
+<style id="gentle-motion-style">
+/* Quiet motion, limited to visible chapters and disabled by motion preferences. */
+.gentle-section{position:relative;isolation:isolate}
+.gentle-atmosphere{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:paint}
+.gentle-atmosphere i{position:absolute;left:var(--x);top:var(--y);width:4px;height:4px;border-radius:50%;background:#dda474;opacity:0;animation:gentle-drift var(--duration) ease-in-out var(--delay) infinite;animation-play-state:paused}
+.gentle-atmosphere i:nth-child(3n){width:auto;height:auto;border-radius:0;background:none;color:#d58d9b;font:16px Georgia}
+.gentle-section.motion-visible .gentle-atmosphere i{animation-play-state:running}
+.sunlit-postcard{animation:gentle-postcard 8s ease-in-out infinite;animation-play-state:paused}
+.hero-flower{transform-origin:50% 90%;animation:gentle-flower 9s ease-in-out -3s infinite;animation-play-state:paused}
+.motion-visible .sunlit-postcard,.motion-visible .hero-flower{animation-play-state:running}
+.chapter-heading>span,.heart-bloom{animation:gentle-heart 4.5s ease-in-out infinite;animation-play-state:paused}
+.motion-visible .chapter-heading>span,.motion-visible .heart-bloom{animation-play-state:running}
+body.gentle-paused .gentle-atmosphere i,body.gentle-paused .sunlit-postcard,body.gentle-paused .hero-flower,body.gentle-paused .chapter-heading>span,body.gentle-paused .heart-bloom{animation-play-state:paused}
+.story-lightbox[open]{animation:gentle-dialog .35s cubic-bezier(.2,.7,.2,1) both}
+.story-thumb{transition:opacity .25s,border-color .25s,transform .25s}
+.story-thumb[aria-pressed=true]{transform:translateY(-2px)}
+@keyframes gentle-drift{0%,100%{opacity:0;transform:translate3d(-5px,20px,0) rotate(-8deg)}25%,70%{opacity:.32}80%{transform:translate3d(9px,-28px,0) rotate(12deg)}}
+@keyframes gentle-postcard{0%,100%{transform:translateY(0) rotate(-9deg)}50%{transform:translateY(-7px) rotate(-7deg)}}
+@keyframes gentle-flower{0%,100%{transform:rotate(15deg)}50%{transform:rotate(22deg)}}
+@keyframes gentle-heart{0%,100%{transform:scale(1);opacity:.82}50%{transform:scale(1.07);opacity:1}}
+@keyframes gentle-dialog{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.gentle-atmosphere i:nth-child(n+6){display:none}}
+@media(prefers-reduced-motion:reduce){.gentle-atmosphere{display:none}.sunlit-postcard,.hero-flower,.chapter-heading>span,.heart-bloom,.story-lightbox[open]{animation:none}.story-thumb{transition:none}.story-thumb[aria-pressed=true]{transform:none}}
+
+</style>
 </head>
 <body>
 <header><div class="brand" aria-label="Amour 爱">AMOUR.</div><nav aria-label="章节导航"><a href="#hero">序言</a><a href="#story">我们的故事</a><a href="#letter">情书</a><a href="#confess">表白</a></nav><button class="quiet" id="editButton">落笔 <span>↗</span></button></header>
@@ -859,13 +884,14 @@ html,body{background:#fffaf0}body:before{opacity:.025}button:focus-visible,a:foc
   renderMusic();
 })();
 </script>
-<script id="our-journey-data" type="application/json">[{"number":1,"date":"10.31","title":"初见，雨里也很近","place":"南开校园 · 滨江路","quote":"虽说有些坎坷两人也有些拘束，但跟你在一块就觉得很放松很舒服。","intro":"从一点点拘束，到舍不得说再见。","cover":0,"text":"第一次烩面，在前一晚我们还遭到了信任危机，不过现在看来这好像真的是上天对我们的考验了有点。这天我们逛了南开校园，走遍了我生活的地方。然后去了一亿人的滨江路步行街，看万圣节cospaly，是野生狗奶不是野生奶狗哈哈哈。然后人挤人狼狈地找东西吃，第一次见面还跨了个栏，没有损伤你的淑女形象真的。最后顶着雨把你送到宿舍。虽说有些坎坷两人也有些拘束，但跟你在一块就觉得很放松很舒服。从这次坎坷的经历，也能看出你的情绪稳定和包容，不太过敏感捉风捕影，特别松弛，这也是你十分吸引我的地方。","media":[{"src":"m1-83de6af7b27c.webp","width":1280,"height":1707,"type":"image","caption":"第一次一起出门"},{"src":"m1-7c45c45fd74f.webp","width":960,"height":1280,"type":"image","caption":"地铁里的你"},{"src":"m1-0e34e6732cc6.webp","width":1280,"height":1707,"type":"image","caption":"一起带走的小纪念"}]},{"number":2,"date":"11.05","title":"突然出现的惊喜","place":"西南村 · 天工校园","quote":"比上一次感觉轻松多了呢。","intro":"想见你，所以提前出现在你的世界里。","cover":2,"text":"第二次烩面给了你一个措手不及，直接在你下课前来真实你哈哈哈哈。这次吃了西南村美味的螺蛳粉，拍了有氛围感的照片，逛了逛天工校园，今天的盲盒是猕hotel酸奶冰淇淋。这次烩面比上一次感觉轻松多了呢。但送下你以后回到工位，有种梦想回到现实的感觉。","media":[{"src":"m2-d2530aacd005.webp","width":1206,"height":2622,"type":"image","caption":"镜头里的小表情"},{"src":"m2-df9ecc83cb60.webp","width":1206,"height":2622,"type":"image","caption":"那天的聊天记录"},{"src":"m2-aa8b207fab04.webp","width":1280,"height":1707,"type":"image","caption":"秋天和你"},{"src":"m2-10ebdd4001eb.webp","width":1280,"height":1707,"type":"image","caption":"老吃家的螺蛳粉"},{"src":"m2-b6be6f72a569.webp","width":1280,"height":1707,"type":"image","caption":"把影子也拍在一起"}]},{"number":3,"date":"11.09","title":"把生日心意收好","place":"天工食堂 · 小吃街","quote":"吃啥不重要，跟你吃才重要。","intro":"礼物和信，都被我认真放进了心里。","cover":2,"text":"这天晚上你校园跑后我来找你吃饭，装作让我拿水给我准备了小惊喜生日礼物，还很用心写了一封信，能看出你对此的心血，让我真的很感动，读完信之后更是如此。第一次来到你们食堂和小吃街，给我看傻了，但我们还是吃了全食堂最难吃的一个哈哈哈哈。不过没事，吃啥不重要，跟你吃才重要。晚上我们第一次靠在一起坐着聊天，我一直死皮赖脸黏着你到了十点钟哈哈哈。","media":[{"src":"m3-01d2184345dc.webp","width":1280,"height":1707,"type":"image","caption":"并排坐着的小片刻"},{"src":"m3-2c7e8244a07a.webp","width":1280,"height":1707,"type":"image","caption":"你准备的生日礼物"},{"src":"m3-a655e2b9cc2a.webp","width":1280,"height":1707,"type":"image","caption":"你写给我的信"}]},{"number":4,"date":"11.11","title":"那一晚，心照不宣","place":"球场 · 回程地铁","quote":"很开心能得到你的理解，真的，至于表达了啥，心照不宣了哈哈哈哈。","intro":"从一起打球，到一些藏不住的心动。","cover":0,"text":"这次我们约好去隔壁打球（排篮球），我觉得挺好的啊，不会处成哥们啊哈哈哈。也就是这次落下病根、埋下祸源了哈哈哈哈哈，胳膊疼了好几天呢。也是这一天对你的好感直线上升。这一天的前一天晚上，我失眠了，所以这一天特别累，时间又晚地铁没什么人，耳机也放着emo歌曲，对你上头，所以回去情绪有点低落胡言乱语了哈哈哈哈，但很开心能得到你的理解，真的，至于表达了啥，心照不宣了哈哈哈哈。","media":[{"src":"m4-5cde475873e6.webp","width":1440,"height":1080,"type":"image","caption":"球场之外，也要一起好好吃饭"},{"src":"m4-clip-1.mp4","type":"video","poster":"m4-5cde475873e6.webp","caption":"那天的小视频 · 1"},{"src":"m4-clip-2.mp4","type":"video","poster":"m4-5cde475873e6.webp","caption":"那天的小视频 · 2"}]},{"number":5,"date":"11.12","title":"把温暖送到你手里","place":"栗子 · 暖宝宝","quote":"你的暖宝宝真暖和，握了一路，第二天还暖着呢。","intro":"不能替你承担的，就用陪伴慢慢抱住。","cover":1,"text":"原本今晚不打算去的开始，但你生理期情绪不好身体不舒服，我有点不知所措也很心疼你。虽说不能帮你承担身体痛苦，但我能做的是给予你精神上的情绪价值，让你开心一点。所以去投喂你了呢哈哈哈哈，买个栗子还把腰果当耳机塞耳朵里，把人机的老绷家售货员整的绷不住了（专业的不会笑，除非忍不住）。你的暖宝宝真暖和，握了一路，第二天还暖着呢。看到你情绪变好了，我也跟着开心哈哈。","media":[{"src":"m5-7c89218c8db3.webp","width":1282,"height":1710,"type":"image","caption":"带给你的投喂"},{"src":"m5-5eff53b3182a.webp","width":1280,"height":1707,"type":"image","caption":"手心里的暖宝宝"}]},{"number":6,"date":"11.14","title":"越来越像真实的我们","place":"图书馆 · 校园跑 · 艺缘中心","quote":"我也觉得，好像不能再等太久了，有点沦陷了。","intro":"在你身边，慢慢变成最真实的自己。","cover":3,"text":"这一次烩面是我们相处时间最长的一次。中午先去奔去麦记牛奶，挺美丽但有点报吃。逛了一会吃了广式餐厅，有些清淡但还可以。还偷拍了你玩头发，简直萌爆。然后我们装模做样（bushi）去图书馆，找了好久好久找到了位置，我好做作，做了套四坤题哈哈哈，俩人学完整个人不好了。然后是的，两个老吃家又去吃饭了，但这次食堂大碗宽面，很好吃啊！然后我们去跑了校园跑，微微发力就是你的一辈子了哈哈哈哈哈哈哈，以后做你的专属黑奴，你要是不想跑了我就不去摘棉花了，去跑圈。还碰到了你室友，你略微尴尬哈哈哈。我总是运动后心情状态比较好，所以这天话有些密了哈哈。完成后我们去艺缘中心，在那有说有笑，还拍了dy抽象视频。这次算是完全激活我本人了，把最真实的自己呈现给你，你应该也是。我也觉得，好像不能再等太久了，有点沦陷了。","media":[{"src":"m6-4a08990364f8.webp","width":1280,"height":1707,"type":"image","caption":"一起消磨的小日常"},{"src":"m6-9ff625601d1c.webp","width":1206,"height":2622,"type":"image","caption":"镜头里的我们"},{"src":"m6-9844f2fda52e.webp","width":960,"height":1280,"type":"image","caption":"偷拍认真玩头发的你"},{"src":"m6-d4bff8ab1b98.webp","width":1280,"height":1707,"type":"image","caption":"又一次一起吃饭"},{"src":"m6-82083d71ae69.webp","width":1280,"height":1707,"type":"image","caption":"两个老吃家的快乐"}]},{"number":7,"date":"11.16","title":"普通一天，也被你治愈","place":"西南村 · 图书馆 · 711","quote":"我很幸运能碰到一个能包容我，让我做自己的女孩。","intro":"见面不必每次都热闹，安心也很珍贵。","cover":3,"text":"今天你只有下午四点一堂课，中午来找我去吃了西南村的过桥米线，味道还行吧比你们的淡一点，但都很好吃。然后咱们又坐地铁去了你们学校。依旧暴走，陪你去取了快递，路上你就等不及都拆了，真被你可爱到了。但我今天状态一般般，感觉宿舍受凉身体不太舒服，但跟你在一块还是很开心，被治愈到的感觉。对了，插一嘴题外话，我们还买了同款羽绒服嘻嘻嘻。四点钟你去上课，我去图书馆学习，其实也没学多少主要是整理前六次面基的文案和图片，表白网站其他内容都搞得差不多了，但我们的故事我一直没有加上去。而且电脑没地方充电，学的时间也就没多久了。电脑没电了一直在等你下课，我好孤独，你怎么还不来认领我阿。终于来了，两个老吃家又去吃了你们学校的地锅鸡，你还教了我扣大米饭往里面，你还真别说，我的女孩虽然优秀但姑且不说，吃商是真高哈哈哈哈。但今天状态真的平平，天津连续阴天且有雾，也影响心情。吃完饭舍不得放你走，因为你有团课我似乎接下来几天见不到你呢，我们又去711那里闲聊着到了将近十点，其中听了你生病的经历，真的超级心疼，好像降临到当时去陪你。以后我要督促你健康生活，每周最多两张熬夜卡吧！团课这几天休息的同时，也想想怎么筹备这个我们都喜欢的仪式感和惊喜。回去以后其实我挺担心，你会因为我今天不太爱说话觉得我无聊呢，因为今天问我确实有点人机，但你的回应让我彻底安心，我很幸运能碰到一个能包容我，让我做自己的女孩。但我也会尽快调整好我的状态，养好身体，最重要的是不熬夜！","media":[{"src":"m7-1c5252a8f82a.webp","width":1440,"height":1080,"type":"image","caption":"在图书馆，偷偷准备这份惊喜"},{"src":"m7-6613f4210937.webp","width":1280,"height":1707,"type":"image","caption":"在图书馆等你认领"},{"src":"m7-2cfb3c369177.webp","width":1280,"height":1707,"type":"image","caption":"中午的过桥米线"},{"src":"m7-42282ad9a97a.webp","width":1280,"height":1707,"type":"image","caption":"被你教会的地锅鸡吃法"}]}]</script>
+<script id="our-journey-data" type="application/json">[{"number":1,"date":"10.31","title":"初见，雨里也很近","place":"南开校园 · 滨江路","quote":"虽说有些坎坷两人也有些拘束，但跟你在一块就觉得很放松很舒服。","intro":"从一点点拘束，到舍不得说再见。","cover":0,"text":"第一次烩面，在前一晚我们还遭到了信任危机，不过现在看来这好像真的是上天对我们的考验了有点。这天我们逛了南开校园，走遍了我生活的地方。然后去了一亿人的滨江路步行街，看万圣节cospaly，是野生狗奶不是野生奶狗哈哈哈。然后人挤人狼狈地找东西吃，第一次见面还跨了个栏，没有损伤你的淑女形象真的。最后顶着雨把你送到宿舍。虽说有些坎坷两人也有些拘束，但跟你在一块就觉得很放松很舒服。从这次坎坷的经历，也能看出你的情绪稳定和包容，不太过敏感捉风捕影，特别松弛，这也是你十分吸引我的地方。","media":[{"src":"m1-83de6af7b27c.webp","width":1280,"height":1707,"type":"image","caption":"第一次一起出门"},{"src":"m1-7c45c45fd74f.webp","width":960,"height":1280,"type":"image","caption":"地铁站里的你"},{"src":"m1-0e34e6732cc6.webp","width":1280,"height":1707,"type":"image","caption":"一起带走的小纪念"}]},{"number":2,"date":"11.05","title":"突然出现的惊喜","place":"西南村 · 天工校园","quote":"比上一次感觉轻松多了呢。","intro":"想见你，所以提前出现在你的世界里。","cover":2,"text":"第二次烩面给了你一个措手不及，直接在你下课前来真实你哈哈哈哈。这次吃了西南村美味的螺蛳粉，拍了有氛围感的照片，逛了逛天工校园，今天的盲盒是猕hotel酸奶冰淇淋。这次烩面比上一次感觉轻松多了呢。但送下你以后回到工位，有种梦想回到现实的感觉。","media":[{"src":"m2-d2530aacd005.webp","width":1206,"height":2622,"type":"image","caption":"镜头里的小表情"},{"src":"m2-df9ecc83cb60.webp","width":1206,"height":2622,"type":"image","caption":"那天的聊天记录"},{"src":"m2-aa8b207fab04.webp","width":1280,"height":1707,"type":"image","caption":"秋天和你"},{"src":"m2-10ebdd4001eb.webp","width":1280,"height":1707,"type":"image","caption":"老吃家的螺蛳粉"},{"src":"m2-b6be6f72a569.webp","width":1280,"height":1707,"type":"image","caption":"把影子也拍在一起"}]},{"number":3,"date":"11.09","title":"把生日心意收好","place":"天工食堂 · 小吃街","quote":"吃啥不重要，跟你吃才重要。","intro":"礼物和信，都被我认真放进了心里。","cover":2,"text":"这天晚上你校园跑后我来找你吃饭，装作让我拿水给我准备了小惊喜生日礼物，还很用心写了一封信，能看出你对此的心血，让我真的很感动，读完信之后更是如此。第一次来到你们食堂和小吃街，给我看傻了，但我们还是吃了全食堂最难吃的一个哈哈哈哈。不过没事，吃啥不重要，跟你吃才重要。晚上我们第一次靠在一起坐着聊天，我一直死皮赖脸黏着你到了十点钟哈哈哈。","media":[{"src":"m3-01d2184345dc.webp","width":1280,"height":1707,"type":"image","caption":"并排坐着的小片刻"},{"src":"m3-2c7e8244a07a.webp","width":1280,"height":1707,"type":"image","caption":"你准备的生日礼物"},{"src":"m3-a655e2b9cc2a.webp","width":1280,"height":1707,"type":"image","caption":"你写给我的信"}]},{"number":4,"date":"11.11","title":"那一晚，心照不宣","place":"球场 · 回程地铁","quote":"很开心能得到你的理解，真的，至于表达了啥，心照不宣了哈哈哈哈。","intro":"从一起打球，到一些藏不住的心动。","cover":0,"text":"这次我们约好去隔壁打球（排篮球），我觉得挺好的啊，不会处成哥们啊哈哈哈。也就是这次落下病根、埋下祸源了哈哈哈哈哈，胳膊疼了好几天呢。也是这一天对你的好感直线上升。这一天的前一天晚上，我失眠了，所以这一天特别累，时间又晚地铁没什么人，耳机也放着emo歌曲，对你上头，所以回去情绪有点低落胡言乱语了哈哈哈哈，但很开心能得到你的理解，真的，至于表达了啥，心照不宣了哈哈哈哈。","media":[{"src":"m4-5cde475873e6.webp","width":1440,"height":1080,"type":"image","caption":"球场之外，也要一起好好吃饭"},{"src":"m4-clip-1.mp4","type":"video","poster":"m4-5cde475873e6.webp","caption":"那天的小视频 · 1"},{"src":"m4-clip-2.mp4","type":"video","poster":"m4-5cde475873e6.webp","caption":"那天的小视频 · 2"}]},{"number":5,"date":"11.12","title":"把温暖送到你手里","place":"栗子 · 暖宝宝","quote":"你的暖宝宝真暖和，握了一路，第二天还暖着呢。","intro":"不能替你承担的，就用陪伴慢慢抱住。","cover":1,"text":"原本今晚不打算去的开始，但你生理期情绪不好身体不舒服，我有点不知所措也很心疼你。虽说不能帮你承担身体痛苦，但我能做的是给予你精神上的情绪价值，让你开心一点。所以去投喂你了呢哈哈哈哈，买个栗子还把腰果当耳机塞耳朵里，把人机的老绷家售货员整的绷不住了（专业的不会笑，除非忍不住）。你的暖宝宝真暖和，握了一路，第二天还暖着呢。看到你情绪变好了，我也跟着开心哈哈。","media":[{"src":"m5-7c89218c8db3.webp","width":1282,"height":1710,"type":"image","caption":"带给你的投喂"},{"src":"m5-5eff53b3182a.webp","width":1280,"height":1707,"type":"image","caption":"手心里的暖宝宝"}]},{"number":6,"date":"11.14","title":"越来越像真实的我们","place":"图书馆 · 校园跑 · 艺缘中心","quote":"我也觉得，好像不能再等太久了，有点沦陷了。","intro":"在你身边，慢慢变成最真实的自己。","cover":3,"text":"这一次烩面是我们相处时间最长的一次。中午先去奔去麦记牛奶，挺美丽但有点报吃。逛了一会吃了广式餐厅，有些清淡但还可以。还偷拍了你玩头发，简直萌爆。然后我们装模做样（bushi）去图书馆，找了好久好久找到了位置，我好做作，做了套四坤题哈哈哈，俩人学完整个人不好了。然后是的，两个老吃家又去吃饭了，但这次食堂大碗宽面，很好吃啊！然后我们去跑了校园跑，微微发力就是你的一辈子了哈哈哈哈哈哈哈，以后做你的专属黑奴，你要是不想跑了我就不去摘棉花了，去跑圈。还碰到了你室友，你略微尴尬哈哈哈。我总是运动后心情状态比较好，所以这天话有些密了哈哈。完成后我们去艺缘中心，在那有说有笑，还拍了dy抽象视频。这次算是完全激活我本人了，把最真实的自己呈现给你，你应该也是。我也觉得，好像不能再等太久了，有点沦陷了。","media":[{"src":"m6-4a08990364f8.webp","width":1280,"height":1707,"type":"image","caption":"一起消磨的小日常"},{"src":"m6-9ff625601d1c.webp","width":1206,"height":2622,"type":"image","caption":"镜头里的我们"},{"src":"m6-9844f2fda52e.webp","width":960,"height":1280,"type":"image","caption":"偷拍被四坤折磨的你"},{"src":"m6-d4bff8ab1b98.webp","width":1280,"height":1707,"type":"image","caption":"又一次一起吃饭"},{"src":"m6-82083d71ae69.webp","width":1280,"height":1707,"type":"image","caption":"偷偷记录认真玩头发的你"}]},{"number":7,"date":"11.16","title":"普通一天，也被你治愈","place":"西南村 · 图书馆 · 711","quote":"我很幸运能碰到一个能包容我，让我做自己的女孩。","intro":"见面不必每次都热闹，安心也很珍贵。","cover":3,"text":"今天你只有下午四点一堂课，中午来找我去吃了西南村的过桥米线，味道还行吧比你们的淡一点，但都很好吃。然后咱们又坐地铁去了你们学校。依旧暴走，陪你去取了快递，路上你就等不及都拆了，真被你可爱到了。但我今天状态一般般，感觉宿舍受凉身体不太舒服，但跟你在一块还是很开心，被治愈到的感觉。对了，插一嘴题外话，我们还买了同款羽绒服嘻嘻嘻。四点钟你去上课，我去图书馆学习，其实也没学多少主要是整理前六次面基的文案和图片，表白网站其他内容都搞得差不多了，但我们的故事我一直没有加上去。而且电脑没地方充电，学的时间也就没多久了。电脑没电了一直在等你下课，我好孤独，你怎么还不来认领我阿。终于来了，两个老吃家又去吃了你们学校的地锅鸡，你还教了我扣大米饭往里面，你还真别说，我的女孩虽然优秀但姑且不说，吃商是真高哈哈哈哈。但今天状态真的平平，天津连续阴天且有雾，也影响心情。吃完饭舍不得放你走，因为你有团课我似乎接下来几天见不到你呢，我们又去711那里闲聊着到了将近十点，其中听了你生病的经历，真的超级心疼，好像降临到当时去陪你。以后我要督促你健康生活，每周最多两张熬夜卡吧！团课这几天休息的同时，也想想怎么筹备这个我们都喜欢的仪式感和惊喜。回去以后其实我挺担心，你会因为我今天不太爱说话觉得我无聊呢，因为今天的我真的有点人机，但你的回应让我彻底安心，我很幸运能碰到一个能包容我，让我做自己的女孩。但我也会尽快调整好我的状态，养好身体，最重要的是不熬夜！","media":[{"src":"m7-1c5252a8f82a.webp","width":1440,"height":1080,"type":"image","caption":"在图书馆，偷偷准备这份惊喜"},{"src":"m7-6613f4210937.webp","width":1280,"height":1707,"type":"image","caption":"在图书馆等你认领"},{"src":"m7-2cfb3c369177.webp","width":1280,"height":1707,"type":"image","caption":"中午的过桥米线"},{"src":"m7-42282ad9a97a.webp","width":1280,"height":1707,"type":"image","caption":"被你教会的地锅鸡吃法"}]}]</script>
 <script id="our-journey-script">
 (() => {
   'use strict';
   const root = document.getElementById('storyContent');
   const memories = JSON.parse(document.getElementById('our-journey-data').textContent);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let mediaAnimation = null;
   const assetBase = new URL('assets/story/', location.protocol === 'file:' ? 'https://1602033615-ai.github.io/letter-for-you/' : document.baseURI);
   const asset = name => new URL(name, assetBase).href;
   const escape = value => String(value).replace(/[&<>"']/g, x => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
@@ -1078,10 +1104,18 @@ html,body{background:#fffaf0}body:before{opacity:.025}button:focus-visible,a:foc
     if(video){video.pause();video.removeAttribute('src');video.load();}
   }
   function showMedia(index) {
+    mediaAnimation?.cancel();
     stopVideo();selectedMedia=index;
     const m=detailMemory||memories[active],item=m.media[index],view=$('storyMediaView');
     const arrows=`<button type="button" class="media-arrow prev" aria-label="上一张照片或视频" ${index===0?'disabled':''}>‹</button><button type="button" class="media-arrow next" aria-label="下一张照片或视频" ${index===m.media.length-1?'disabled':''}>›</button>`;
     view.innerHTML=(item.type==='video'?`<video controls playsinline preload="metadata" poster="${asset(item.poster)}" src="${asset(item.src)}" aria-label="${escape(item.caption)}"></video>`:`<img src="${asset(item.src)}" alt="${escape(item.caption)}" width="${item.width}" height="${item.height}" decoding="async">`)+arrows;
+    const content=view.querySelector(item.type==='video'?'video':'img');
+    const revealMedia=()=>{
+      if(matchMedia('(prefers-reduced-motion: reduce)').matches || !content.isConnected) return;
+      mediaAnimation=content.animate([{opacity:0,transform:'translateX(8px)'},{opacity:1,transform:'translateX(0)'}],{duration:420,easing:'cubic-bezier(.2,.7,.2,1)'});
+    };
+    if(item.type==='image'&&!content.complete) content.addEventListener('load',revealMedia,{once:true});
+    else revealMedia();
     view.querySelector('.prev').addEventListener('click',()=>showMedia(Math.max(0,selectedMedia-1)));
     view.querySelector('.next').addEventListener('click',()=>showMedia(Math.min(m.media.length-1,selectedMedia+1)));
     view.querySelector(item.type==='video'?'video':'img').addEventListener('error',()=>{
@@ -1131,6 +1165,87 @@ html,body{background:#fffaf0}body:before{opacity:.025}button:focus-visible,a:foc
   function addMemorySticker(){const collage=stage.querySelector('.memory-collage');if(collage&&!collage.querySelector('.memory-personal'))collage.insertAdjacentHTML('beforeend',sticker('scarf','memory-personal'));}
   new MutationObserver(addMemorySticker).observe(stage,{childList:true});
   addMemorySticker();
+})();
+
+</script>
+<script id="gentle-motion-script">
+(() => {
+  'use strict';
+  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  const sections = [...document.querySelectorAll('#hero,#story,#letter,#confess')];
+  const reveals = new Set();
+  const revealAnimations = new Set();
+  let sectionObserver, revealObserver, active = false;
+  const ready = () => !document.hidden && !document.body.classList.contains('intro-active') && !document.querySelector('dialog[open]');
+
+  function reveal(element) {
+    if (!active || !ready() || reveals.has(element)) return;
+    reveals.add(element);
+    revealObserver?.unobserve(element);
+    const animation = element.animate(
+      [{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}],
+      {duration:700,easing:'cubic-bezier(.2,.7,.2,1)'}
+    );
+    revealAnimations.add(animation);
+    animation.finished.catch(() => {}).finally(() => revealAnimations.delete(animation));
+  }
+  function sync() {
+    const paused = !ready();
+    if (document.body.classList.contains('gentle-paused') !== paused) document.body.classList.toggle('gentle-paused', paused);
+    if (active && ready()) {
+      document.querySelectorAll('[data-gentle-reveal]').forEach(element => {
+        const rect = element.getBoundingClientRect();
+        if (rect.height && rect.top < innerHeight * .95 && rect.bottom > 0) reveal(element);
+      });
+    }
+  }
+  function start() {
+    if (active || preference.matches) return;
+    active = true;
+    if ('IntersectionObserver' in window) {
+      sectionObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+        entry.target.classList.toggle('motion-visible',entry.isIntersecting);
+      }), {threshold:0});
+      revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (entry.isIntersecting) reveal(entry.target);
+      }), {threshold:.08});
+    }
+    sections.forEach((section,chapter) => {
+      section.classList.add('gentle-section');
+      const atmosphere = document.createElement('div');
+      atmosphere.className = 'gentle-atmosphere';
+      atmosphere.setAttribute('aria-hidden','true');
+      for (let i=0;i<7;i++) {
+        const particle = document.createElement('i');
+        particle.style.cssText = `--x:${6+(i*31+chapter*13)%88}%;--y:${12+(i*19+chapter*7)%76}%;--delay:${-i*2.3}s;--duration:${13+i%4*2}s`;
+        if (i%3===2) particle.textContent = i%2 ? '♡' : '✧';
+        atmosphere.append(particle);
+      }
+      section.prepend(atmosphere);
+      if (sectionObserver) sectionObserver.observe(section);
+      else section.classList.add('motion-visible');
+    });
+    document.querySelectorAll('.hero-inner,.chapter-heading,.journey-intro,.journey-gate,.cover-copy,.invitation-area,#confess>h2,.confess-subtitle,.mood').forEach(element => {
+      element.dataset.gentleReveal = '';
+      if (!reveals.has(element)) revealObserver?.observe(element);
+    });
+    sync();
+  }
+  function stop() {
+    active = false;
+    sectionObserver?.disconnect();
+    revealObserver?.disconnect();
+    revealAnimations.forEach(animation => animation.cancel());
+    document.querySelectorAll('.gentle-atmosphere').forEach(element => element.remove());
+    sections.forEach(section => section.classList.remove('gentle-section','motion-visible'));
+    document.body.classList.remove('gentle-paused');
+  }
+  const bodyObserver = new MutationObserver(sync);
+  bodyObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
+  document.querySelectorAll('dialog').forEach(dialog => bodyObserver.observe(dialog,{attributes:true,attributeFilter:['open']}));
+  document.addEventListener('visibilitychange',sync);
+  preference.addEventListener('change',() => preference.matches ? stop() : start());
+  start();
 })();
 
 </script>
