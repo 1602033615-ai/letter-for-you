@@ -13,7 +13,7 @@
     <p class="journey-intro">有一条路线，终点是你。<br>也有七次见面，悄悄把我们连在一起。</p>
     <div id="journeyGate" class="journey-gate">
       <div class="gate-starlight" aria-hidden="true"></div><span class="gate-moon" aria-hidden="true">☾</span>
-      <div class="gate-heading"><div><p class="journey-kicker">A LITTLE WAY TO YOU</p><h3>下一站，见到你</h3></div><div class="gate-ticket">FOR TWO ONLY<b>3 → 11</b></div></div>
+      <div class="gate-heading"><div><p class="journey-kicker">去见你的路线</p><h3>下一站，见到你</h3></div><div class="gate-ticket">我们的双人票<b>3 → 11</b></div></div>
       <div class="school-pair">
         <figure class="school-card"><span class="school-person">你在这里 ♡</span><img src="${asset('gate-tiangong.webp')}" alt="天津工业大学校门，你所在的学校" width="1206" height="679" loading="lazy"><figcaption>天津工业大学<small>大学城站 · 3 号线</small></figcaption></figure>
         <div class="school-heart" aria-hidden="true">♡</div>
@@ -38,8 +38,8 @@
       <div class="journey-sparks" id="journeySparks" aria-hidden="true"></div>
     </div>
     <div id="journeyAlbum" hidden>
-      <div class="journey-pass"><div><p><span class="pass-mark" aria-hidden="true">♡</span>大学城 → 吴家窑 → 八里台</p><small>TWO PEOPLE · ONE DESTINATION</small></div><button type="button" id="replayRoute">重坐这班地铁 ↺</button></div>
-      <div class="album-heading"><div><span class="journey-kicker">SEVEN TIMES, CLOSER TO YOU</span><h3>把心动，一站站收藏</h3><p>沿着时间，重温我们的七次「烩面」。</p></div><span class="album-count">01 — 07</span></div>
+      <div class="journey-pass"><div><p><span class="pass-mark" aria-hidden="true">♡</span>大学城 → 吴家窑 → 八里台</p><small>下一站，见到你</small></div><button type="button" id="replayRoute">重坐这班地铁 ↺</button></div>
+      <div class="album-heading"><div><span class="journey-kicker">10.31 — 11.16 · 七次见面</span><h3>把心动，一站站收藏</h3><p>沿着时间，重温我们的七次「烩面」。</p></div><span class="album-count">01 — 07</span></div>
       <div class="memory-rail" id="memoryRail" role="tablist" aria-label="七次见面时间轴">
         ${memories.map((m,i)=>`<button class="memory-stop" type="button" role="tab" id="memoryTab${i}" data-memory="${i}" aria-controls="memoryStage" aria-selected="${i===0}" tabindex="${i===0?0:-1}"><time>${m.date}</time><span class="rail-dot" aria-hidden="true"></span><small>第${['一','二','三','四','五','六','七'][i]}次</small></button>`).join('')}
       </div>
@@ -53,7 +53,7 @@
   const dialog = document.createElement('dialog');
   dialog.className = 'story-lightbox'; dialog.id = 'storyLightbox';
   dialog.setAttribute('aria-labelledby','storyDetailTitle');
-  dialog.innerHTML = `<div class="lightbox-top"><p id="lightboxStation"></p><button type="button" class="lightbox-close" id="closeStoryDetail" aria-label="关闭这一天的回忆">×</button></div><div class="lightbox-body"><h3 id="storyDetailTitle"></h3><p class="lightbox-meta" id="storyDetailMeta"></p><div class="story-media-view" id="storyMediaView"></div><p class="story-media-caption" id="storyMediaCaption" role="status" aria-live="polite"></p><div class="story-thumbs" id="storyThumbs" role="group" aria-label="这一天的照片与视频"></div><div class="story-original"><p class="story-original-label">那天，我写下的 · ORIGINAL DIARY</p><div id="storyOriginalText"></div></div></div>`;
+  dialog.innerHTML = `<div class="lightbox-top"><p id="lightboxStation"></p><button type="button" class="lightbox-close" id="closeStoryDetail" aria-label="关闭这一天的回忆">×</button></div><div class="lightbox-body"><h3 id="storyDetailTitle"></h3><p class="lightbox-meta" id="storyDetailMeta"></p><div class="story-media-view" id="storyMediaView"></div><p class="story-media-caption" id="storyMediaCaption" role="status" aria-live="polite"></p><div class="story-thumbs" id="storyThumbs" role="group" aria-label="这一天的照片与视频"></div><div class="story-original"><p class="story-original-label">那天，我写下的</p><div id="storyOriginalText"></div></div></div>`;
   document.body.append(dialog);
   const $ = id => document.getElementById(id);
   const stops = [...root.querySelectorAll('[data-stop]')];
@@ -201,7 +201,7 @@
     const m=route?{number:0,date:'3 号线 → 11 号线',title:'有一条路线，终点是你',place:'大学城 · 吴家窑 · 南开大学八里台',text:'你在天津工业大学，我在南开大学。\n从大学城坐上 3 号线，在吴家窑换乘 11 号线，到南开大学八里台。\n两所学校，两个人，一条想见你的路。',media:[{type:'image',src:'platform.webp',caption:'一起经过的地铁站台',width:1440,height:1080},{type:'image',src:'route-photo.webp',caption:'熟悉的 3 号线，通向彼此的方向',width:1440,height:1080},{type:'image',src:'gate-tiangong.webp',caption:'你在天津工业大学',width:1206,height:679},{type:'image',src:'gate-nankai.webp',caption:'我在南开大学',width:1440,height:1080}]}:memories[active];
     detailMemory=m;returnFocus=trigger;
     $('lightboxStation').textContent=route?'OUR ROUTE · 想见你的路线':`OUR STORY · 第 ${m.number} 次「烩面」`;
-    dialog.querySelector('.story-original-label').textContent=route?'两所学校 · 一条想见你的路':'那天，我写下的 · ORIGINAL DIARY';
+    dialog.querySelector('.story-original-label').textContent=route?'两所学校 · 一条想见你的路':'那天，我写下的';
     $('storyDetailTitle').textContent=m.title;
     $('storyDetailMeta').textContent=`${m.date}  ·  ${m.place}`;
     $('storyOriginalText').innerHTML=paragraphText(m.text);
