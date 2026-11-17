@@ -1,4 +1,6 @@
 /* Sunshine, ribbon, real photographs, and a few personal pencil stickers. */
+/* Keep off-page decoration from enlarging the mobile layout viewport. */
+html{width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}body{width:100%;max-width:100%}.letter-chapter,.story-chapter{overflow:hidden}
 :root{--paper:#fffaf0;--ink:#60454b;--red:#d75a7d;--muted:#97767c;--line:#efd3cd;--serif:'Noto Serif SC','Songti SC','SimSun',serif}
 html,body{background:#fffaf0}body:before{opacity:.025}button:focus-visible,a:focus-visible{outline-color:#cb5274}header{background:#fffcf2ed;border-color:#f1d9cf;box-shadow:0 3px 20px #dc93730a}header .brand{font-size:19px;letter-spacing:3px;color:#c65570}header nav a{color:#956c74;font-family:var(--serif);font-size:14px;letter-spacing:1px}header nav a.active{color:#ce4e75;border-color:#dc7590}.quiet,header #editButton{color:#a66e7c;font-size:12px}
 .romance-hero{min-height:760px;padding:130px 28px 170px;background:radial-gradient(ellipse at 8% 10%,#ffde9f80,transparent 47%),radial-gradient(ellipse at 94% 65%,#ffbdcb88,transparent 48%),linear-gradient(140deg,#fff8de,#fff3ee 48%,#e4f2fa);border-bottom:1px solid #f1d6ca}
