@@ -8,7 +8,6 @@
     ${sticker('summer','hero-girl')}`);
   document.querySelector('.invitation-area').insertAdjacentHTML('beforeend',sticker('letter','letter-friend'));
   document.getElementById('confess').insertAdjacentHTML('afterbegin',sticker('heart','confession-friend')+sticker('pink','confession-meme'));
-  document.getElementById('thoughtPanel').insertAdjacentHTML('afterbegin',sticker('pink','thought-friend'));
   document.querySelector('.result-companions').innerHTML=`<div class="result-personal">${sticker('heart')}${sticker('orange')}${sticker('letter')}</div>`;
   document.getElementById('introScreen').insertAdjacentHTML('beforeend',sticker('letter','intro-friend'));
   document.getElementById('journeyGate').insertAdjacentHTML('beforeend',sticker('orange','gate-little-friend'));

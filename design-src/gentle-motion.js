@@ -8,11 +8,11 @@
   const ready = () => !document.hidden && !document.body.classList.contains('intro-active') && !document.querySelector('dialog[open]');
 
   function reveal(element) {
-    if (!active || !ready() || reveals.has(element)) return;
+    if (!active || !ready() || reveals.has(element) || !element.animate) return;
     reveals.add(element);
     revealObserver?.unobserve(element);
     const animation = element.animate(
-      [{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}],
+      [{opacity:0,translate:'0 16px'},{opacity:1,translate:'0 0'}],
       {duration:700,easing:'cubic-bezier(.2,.7,.2,1)'}
     );
     revealAnimations.add(animation);
@@ -44,9 +44,9 @@
       const atmosphere = document.createElement('div');
       atmosphere.className = 'gentle-atmosphere';
       atmosphere.setAttribute('aria-hidden','true');
-      for (let i=0;i<7;i++) {
+      for (let i=0;i<10;i++) {
         const particle = document.createElement('i');
-        particle.style.cssText = `--x:${6+(i*31+chapter*13)%88}%;--y:${12+(i*19+chapter*7)%76}%;--delay:${-i*2.3}s;--duration:${13+i%4*2}s`;
+        particle.style.cssText = `--x:${6+(i*31+chapter*13)%88}%;--y:${12+(i*19+chapter*7)%76}%;--delay:${-i*2.3}s;--duration:${11+i%4*3}s;--drift:${i%2 ? 16 : -16}px`;
         if (i%3===2) particle.textContent = i%2 ? '♡' : '✧';
         atmosphere.append(particle);
       }
@@ -54,7 +54,7 @@
       if (sectionObserver) sectionObserver.observe(section);
       else section.classList.add('motion-visible');
     });
-    document.querySelectorAll('.hero-inner,.chapter-heading,.journey-intro,.journey-gate,.cover-copy,.invitation-area,#confess>h2,.confess-subtitle,.mood').forEach(element => {
+    document.querySelectorAll('.hero-inner,.chapter-heading,.journey-intro,.journey-gate,.cover-copy,.invitation-area,#confess>h2,.confess-subtitle,.poetry-ribbon,.mood').forEach(element => {
       element.dataset.gentleReveal = '';
       if (!reveals.has(element)) revealObserver?.observe(element);
     });

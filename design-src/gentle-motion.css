@@ -13,10 +13,156 @@ body.gentle-paused .gentle-atmosphere i,body.gentle-paused .sunlit-postcard,body
 .story-lightbox[open]{animation:gentle-dialog .35s cubic-bezier(.2,.7,.2,1) both}
 .story-thumb{transition:opacity .25s,border-color .25s,transform .25s}
 .story-thumb[aria-pressed=true]{transform:translateY(-2px)}
-@keyframes gentle-drift{0%,100%{opacity:0;transform:translate3d(-5px,20px,0) rotate(-8deg)}25%,70%{opacity:.32}80%{transform:translate3d(9px,-28px,0) rotate(12deg)}}
+@keyframes gentle-drift{
+  0%{opacity:0;transform:translate3d(0,22px,0) rotate(-14deg)}
+  28%,64%{opacity:.38}
+  100%{opacity:0;transform:translate3d(var(--drift),-42px,0) rotate(20deg)}
+}
 @keyframes gentle-postcard{0%,100%{transform:translateY(0) rotate(-9deg)}50%{transform:translateY(-7px) rotate(-7deg)}}
 @keyframes gentle-flower{0%,100%{transform:rotate(15deg)}50%{transform:rotate(22deg)}}
 @keyframes gentle-heart{0%,100%{transform:scale(1);opacity:.82}50%{transform:scale(1.07);opacity:1}}
 @keyframes gentle-dialog{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:600px){.gentle-atmosphere i:nth-child(n+6){display:none}}
+@media(max-width:600px){.gentle-atmosphere i:nth-child(n+8){display:none}}
 @media(prefers-reduced-motion:reduce){.gentle-atmosphere{display:none}.sunlit-postcard,.hero-flower,.chapter-heading>span,.heart-bloom,.story-lightbox[open]{animation:none}.story-thumb{transition:none}.story-thumb[aria-pressed=true]{transform:none}}
+
+.answer-buttons {
+  --answer-gap: clamp(10px, 4vw, 24px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--answer-gap);
+  max-width: 402px;
+  min-height: 60px;
+}
+.answer-buttons #yesBtn, .answer-buttons #noBtn {
+  padding-inline: clamp(9px, 4vw, 28px);
+  white-space: nowrap;
+  justify-content: center;
+}
+.answer-buttons.is-dodging { min-height: 165px; }
+.answer-buttons.is-dodging #noBtn {
+  position: absolute;
+  z-index: 2;
+  width: calc((100% - var(--answer-gap)) / 2);
+  transform: scale(var(--dodge-scale, 1));
+  transform-origin: top left;
+  touch-action: manipulation;
+}
+.answer-buttons #noBtn[hidden], .dino-punchline[hidden] { display: none; }
+.answer-buttons.dino-won #yesBtn {
+  grid-column: 1 / -1;
+  justify-self: center;
+  min-width: min(100%, 172px);
+  animation: dino-yes .42s ease-out;
+}
+.dino-won + #answerFeedback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.dino-punchline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 6px auto 0;
+  padding-inline: 8px;
+  color: #895547;
+}
+.dino-peek {
+  flex: 0 0 auto;
+  width: clamp(76px, 15vw, 106px);
+  filter: drop-shadow(0 5px 6px #a46d502b);
+  animation: dino-peek .58s cubic-bezier(.18,.75,.3,1.1) both;
+}
+.dino-peek img { display: block; width: 100%; height: auto; }
+.dino-punchline p {
+  position: relative;
+  z-index: 0;
+  margin: 0 0 24px;
+  padding: 10px 16px;
+  border: 1px solid #ebc6ab;
+  border-radius: 18px 18px 18px 6px;
+  background: #fff7df;
+  box-shadow: 0 6px 15px #a877501f;
+  font: 17px/1.5 var(--serif);
+  white-space: nowrap;
+  transform-origin: left center;
+  animation: dino-bubble .42s .16s cubic-bezier(.18,.75,.3,1.15) both;
+}
+.dino-punchline p::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 62%;
+  width: 10px;
+  height: 10px;
+  border: solid #ebc6ab;
+  border-width: 0 0 1px 1px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+.dino-punchline p span { color: #bb8056; font-size: 13px; margin-left: 3px; }
+@keyframes dino-peek {
+  0% { opacity: 0; transform: translate(14px, 16px) rotate(-13deg) scale(.85); }
+  64% { transform: translateY(-4px) rotate(6deg) scale(1.02); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes dino-bubble {
+  from { opacity: 0; transform: scale(.8) rotate(-3deg); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes dino-yes {
+  0%, 100% { transform: scale(1); }
+  55% { transform: scale(1.045); }
+}
+
+/* The paper, photos and decorations each respond a little differently. */
+:is(#hero, #letter) .gentle-atmosphere::before {
+  content: '';
+  position: absolute;
+  left: -15%;
+  top: 5%;
+  width: 82%;
+  height: 82%;
+  background: radial-gradient(ellipse, #ffdb8e66, #ffd8a529 38%, transparent 70%);
+  animation: paper-sunlight 15s ease-in-out infinite alternate;
+}
+.letter-friend { animation: letter-companion 6s ease-in-out infinite; }
+:is(#hero, #letter) .gentle-atmosphere::before, .letter-friend { animation-play-state: paused; }
+:is(#hero, #letter).motion-visible .gentle-atmosphere::before,
+.motion-visible .letter-friend { animation-play-state: running; }
+body.gentle-paused :is(#hero, #letter).motion-visible .gentle-atmosphere::before,
+body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused; }
+.envelope { transition: transform .38s cubic-bezier(.2,.7,.2,1), box-shadow .38s ease; }
+.invitation-area:focus-within .envelope { transform: translateY(-5px) rotate(-8deg); }
+@media (hover: hover) {
+  .invitation-area:hover .envelope { transform: translateY(-5px) rotate(-8deg); }
+}
+.letter-view:not(.hidden) .letter-paper { animation: paper-open .52s cubic-bezier(.2,.7,.2,1) both; }
+.memory-enter .photo-wrap { animation: album-settle .64s cubic-bezier(.2,.7,.2,1) both; }
+.memory-enter .memory-photo.secondary .photo-wrap { animation-delay: .10s; }
+@keyframes paper-sunlight {
+  from { opacity: .55; transform: translateX(-6%) scale(.95); }
+  to { opacity: .95; transform: translate(38%, 12%) scale(1.16); }
+}
+@keyframes letter-companion {
+  0%, 100% { transform: translateY(0) rotate(6deg); }
+  50% { transform: translateY(-7px) rotate(1deg); }
+}
+@keyframes paper-open {
+  from { opacity: 0; transform: translateY(14px) scale(.986); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes album-settle {
+  from { opacity: .6; transform: scale(1.05); }
+  to { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invitation-area:is(:hover, :focus-within) .envelope { transform: rotate(-12deg); }
+}
