@@ -428,14 +428,14 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
 <footer><span>我＆你</span><span aria-hidden="true">♡</span></footer>
 <dialog id="editor" aria-labelledby="editorTitle"><form id="editForm"><div class="dialog-head"><h2 id="editorTitle">把心意写下来</h2><button type="button" class="close" id="closeEditor" aria-label="关闭编辑">×</button></div><p class="edit-note">解锁后的心意，在这里慢慢写。<br>保存到此浏览器不会更新在线页面；下载可带走一份加密情书。</p><label for="toInput">写给谁</label><input id="toInput" maxlength="80" autocomplete="off" placeholder="称呼，可留空"><label for="bodyInput">你的情书</label><textarea maxlength="100000" id="bodyInput" placeholder="从这里，写下第一句话……"></textarea><label for="fromInput">落款</label><input id="fromInput" maxlength="80" autocomplete="off" placeholder="你的名字，可留空"><div class="form-actions"><button class="open" type="submit">保存并预览 ↗</button><button class="secondary" id="downloadButton" type="button">下载情书网页 ↓</button></div><p id="downloadStatus">下载的情书仍需输入同一密码，照片会随信附上。</p></form></dialog>
 <div class="toast hidden" id="toast" role="status"></div>
-<audio id="backgroundMusic" src="assets/just-love-you.mp3" loop preload="none"></audio>
+<audio id="backgroundMusic" src="assets/love-is-simple.mp3" loop preload="none"></audio>
 <aside id="musicPlayer" class="music-player" aria-label="背景音乐">
-  <button type="button" class="music-toggle" data-music-toggle aria-controls="backgroundMusic" aria-pressed="false" aria-label="播放背景音乐：就是爱你，陶喆">
-    <span class="music-symbol" aria-hidden="true">♪</span><span class="music-title">就是爱你<small>陶喆</small></span><span class="music-action" data-music-action aria-hidden="true">播放</span>
+  <button type="button" class="music-toggle" data-music-toggle aria-controls="backgroundMusic" aria-pressed="false" aria-label="播放背景音乐：爱很简单，陶喆">
+    <span class="music-symbol" aria-hidden="true">♪</span><span class="music-title">爱很简单<small>陶喆</small></span><span class="music-action" data-music-action aria-hidden="true">播放</span>
   </button>
 </aside>
 <div id="introScreen" class="intro-screen" role="dialog" aria-modal="true" aria-label="开场" tabindex="-1">
-<div id="introParticles" class="intro-particles" aria-hidden="true"></div><div class="intro-content"><span class="intro-heart" aria-hidden="true">♥</span><p id="introTyping" class="intro-typing">那我要开始了…</p><div class="intro-progress" aria-hidden="true"><span></span></div><p id="introStatus" class="intro-status" role="status">请稍候…</p><button id="introStart" class="intro-start">点击屏幕，开启我们的故事 ✨</button><div id="introNumber" class="intro-number" aria-live="polite"></div><button type="button" class="music-toggle intro-music" data-music-toggle aria-controls="backgroundMusic" aria-pressed="false" aria-label="播放背景音乐：就是爱你，陶喆"><span aria-hidden="true">♪</span><span>就是爱你 · 陶喆</span><span class="music-action" data-music-action aria-hidden="true">播放</span></button></div><button id="introSkip" class="intro-skip">跳过开场 →</button></div>
+<div id="introParticles" class="intro-particles" aria-hidden="true"></div><div class="intro-content"><span class="intro-heart" aria-hidden="true">♥</span><p id="introTyping" class="intro-typing">那我要开始了…</p><div class="intro-progress" aria-hidden="true"><span></span></div><p id="introStatus" class="intro-status" role="status">请稍候…</p><button id="introStart" class="intro-start">点击屏幕，开启我们的故事 ✨</button><div id="introNumber" class="intro-number" aria-live="polite"></div><button type="button" class="music-toggle intro-music" data-music-toggle aria-controls="backgroundMusic" aria-pressed="false" aria-label="播放背景音乐：爱很简单，陶喆"><span aria-hidden="true">♪</span><span>爱很简单 · 陶喆</span><span class="music-action" data-music-action aria-hidden="true">播放</span></button></div><button id="introSkip" class="intro-skip">跳过开场 →</button></div>
 <script id="letterData" type="application/json">{"v":1,"id":"d13ed764-7d7d-4e9f-86bd-a0710738c8fa","algorithm":"AES-GCM","iterations":600000,"salt":"v/6LHct5FiOAIgt5V6EDzw==","iv":"K7dsrR4bCYsISDZe","ciphertext":"lO2jasWCrI9J9/KHqO/5PoYFNmEwlhx9jLQd20mKDsWmuFl/+XU3YuDuNb9T"}</script>
 <script id="letterCrypto">
 (function (root) {
@@ -644,7 +644,7 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
       doc.querySelector('#backgroundMusic').src = $('backgroundMusic').currentSrc || $('backgroundMusic').src;
       doc.querySelectorAll('[data-music-toggle]').forEach(button => {
         button.setAttribute('aria-pressed', 'false');
-        button.setAttribute('aria-label', '播放背景音乐：就是爱你，陶喆');
+        button.setAttribute('aria-label', '播放背景音乐：爱很简单，陶喆');
         button.querySelector('[data-music-action]').textContent = '播放';
       });
       const originalPictures=[...document.querySelectorAll('img[data-letter-asset]')];
@@ -1007,7 +1007,7 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
     const action = failed ? '重试播放' : pending ? '加载中' : playing ? '暂停' : '播放';
     buttons.forEach(button => {
       button.setAttribute('aria-pressed', String(playing));
-      button.setAttribute('aria-label', (playing || pending ? '暂停' : failed ? '重试播放' : '播放') + '背景音乐：就是爱你，陶喆');
+      button.setAttribute('aria-label', (playing || pending ? '暂停' : failed ? '重试播放' : '播放') + '背景音乐：爱很简单，陶喆');
       button.querySelector('[data-music-action]').textContent = action;
     });
   }
