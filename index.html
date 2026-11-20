@@ -376,6 +376,79 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
 }
 
 </style>
+<style id="letter-reader-style">
+.letter-paper.is-unsealed {
+  min-height: 0;
+  padding: clamp(27px, 6vw, 55px) clamp(21px, 8vw, 70px);
+  background: radial-gradient(ellipse at 100% 0, #f5d9c363, transparent 50%), #fffdf3;
+  border-color: #dfc0a7;
+  box-shadow: 0 5px 0 -2px #f9e8d4, 0 9px 0 -4px #ead0b7, 0 18px 42px #9f635c18;
+}
+.letter-paper.is-unsealed > .letter-heading,
+.letter-paper.is-unsealed > .letter-sub { display: none; }
+.letter-folio { outline: none; scroll-margin-top: 18px; }
+.letter-folio [hidden], .letter-pagination[hidden] { display: none; }
+.letter-folio .salutation {
+  min-height: 0;
+  margin: 0 0 18px;
+  color: #97475e;
+  font: 25px/1.5 var(--hand), var(--serif);
+  letter-spacing: .04em;
+}
+.letter-folio .letter-body {
+  min-height: 0;
+  font-size: clamp(16px, 2.1vw, 19px);
+  line-height: 1.95;
+  letter-spacing: .035em;
+  color: #594039;
+  background: none;
+}
+.letter-folio .letter-body p {
+  margin: 0 0 1lh;
+  background: repeating-linear-gradient(to bottom, transparent 0 calc(1lh - 1px), #cda98a40 calc(1lh - 1px) 1lh);
+}
+.letter-folio .letter-body p:last-child { margin-bottom: 0; }
+.letter-folio .signature {
+  min-height: 0;
+  margin: 23px 0 0;
+  color: #84495a;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.letter-folio .letter-bottom { color: #a9556e; margin: 18px 0 0; }
+.letter-pagination {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid #e5c7ad;
+  color: #7d524f;
+}
+.letter-pagination button {
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1px solid #dfbaab;
+  border-radius: 5px;
+  background: #fff8e9;
+  color: #87465d;
+  font-size: 15px;
+}
+.letter-pagination button:first-child { justify-self: start; }
+.letter-pagination button:last-child { justify-self: end; }
+.letter-pagination button:hover:not(:disabled) { background: #f6e4d8; }
+.letter-pagination button:disabled { opacity: .48; }
+.letter-page-count { margin: 0; text-align: center; font-size: 14px; font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) {
+  .letter-pagination { max-width: min(235px, calc(100% - 24px)); margin-inline: auto; gap: 5px; }
+  .letter-pagination button { padding-inline: 8px; font-size: 14px; }
+  .letter-page-count { font-size: 13px; }
+  body:has(.letter-paper.is-unsealed) .music-player .music-toggle { min-width: 44px; min-height: 44px; padding: 6px; justify-content: center; }
+  body:has(.letter-paper.is-unsealed) .music-player :is(.music-title, .music-action) { display: none; }
+}
+</style>
 </head>
 <body>
 <header><div class="brand" aria-label="Amour 爱">AMOUR.</div><nav aria-label="章节导航"><a href="#hero">序言</a><a href="#story">我们的故事</a><a href="#letter">情书</a><a href="#confess">表白</a></nav><button class="quiet" id="editButton">落笔 <span>↗</span></button></header>
@@ -399,7 +472,19 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
 <div class="letter-nav"><button class="quiet" id="backButton">← 回到封面</button><div class="letter-actions"><button class="quiet hidden" id="relockButton">重新封存 ♡</button><span class="mini">JUST BETWEEN US</span></div></div>
 <article class="letter-paper" tabindex="-1" id="letterPaper">
 <h2 class="letter-heading">Dear 虾虾,</h2><div class="letter-sub">见 字 如 面</div>
-<div id="privateContent" class="private-content" hidden><div class="salutation" id="recipient"></div><div class="letter-body" id="letterBody"></div><div class="signature" id="sender"></div><div class="letter-bottom" aria-hidden="true">♡</div></div>
+<div id="privateContent" class="private-content" hidden>
+  <div class="letter-folio" id="letterPage" tabindex="-1" role="region" aria-label="信纸">
+    <p class="salutation" id="recipient" hidden></p>
+    <div class="letter-body" id="letterBody"></div>
+    <p class="signature" id="sender" hidden></p>
+    <div class="letter-bottom" id="letterEnd" aria-hidden="true" hidden>♡</div>
+  </div>
+  <div class="letter-pagination" id="letterPagination" role="group" aria-label="情书翻页" hidden>
+    <button type="button" id="letterPrev" aria-controls="letterPage" disabled>上一页</button>
+    <p class="letter-page-count" id="letterPageCount" role="status" aria-atomic="true"></p>
+    <button type="button" id="letterNext" aria-controls="letterPage" disabled>下一页</button>
+  </div>
+</div>
 <div id="privacyPreview" class="privacy-preview" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div id="lockScreen" class="lock-screen"><form class="lock-panel" id="unlockForm" aria-labelledby="unlockTitle">
 <svg class="lock-icon" viewBox="0 0 32 36" fill="none" aria-hidden="true"><rect x="5" y="15" width="22" height="18" rx="3" stroke="currentColor" stroke-width="1.4"/><path d="M10 15V9a6 6 0 0 1 12 0v6" stroke="currentColor" stroke-width="1.4"/><path d="M16 22v5" stroke="currentColor" stroke-width="1.6"/></svg>
@@ -436,7 +521,7 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
 </aside>
 <div id="introScreen" class="intro-screen" role="dialog" aria-modal="true" aria-label="开场" tabindex="-1">
 <div id="introParticles" class="intro-particles" aria-hidden="true"></div><div class="intro-content"><span class="intro-heart" aria-hidden="true">♥</span><p id="introTyping" class="intro-typing">那我要开始了…</p><div class="intro-progress" aria-hidden="true"><span></span></div><p id="introStatus" class="intro-status" role="status">请稍候…</p><button id="introStart" class="intro-start">点击屏幕，开启我们的故事 ✨</button><div id="introNumber" class="intro-number" aria-live="polite"></div><button type="button" class="music-toggle intro-music" data-music-toggle aria-controls="backgroundMusic" aria-pressed="false" aria-label="播放背景音乐：爱很简单，陶喆"><span aria-hidden="true">♪</span><span>爱很简单 · 陶喆</span><span class="music-action" data-music-action aria-hidden="true">播放</span></button></div><button id="introSkip" class="intro-skip">跳过开场 →</button></div>
-<script id="letterData" type="application/json">{"v":1,"id":"d13ed764-7d7d-4e9f-86bd-a0710738c8fa","algorithm":"AES-GCM","iterations":600000,"salt":"v/6LHct5FiOAIgt5V6EDzw==","iv":"K7dsrR4bCYsISDZe","ciphertext":"lO2jasWCrI9J9/KHqO/5PoYFNmEwlhx9jLQd20mKDsWmuFl/+XU3YuDuNb9T"}</script>
+<script id="letterData" type="application/json">{"v":1,"id":"29dbb450-0aba-40cb-9c59-baae6141c972","algorithm":"AES-GCM","iterations":600000,"salt":"hssLuLXNnG5x+K8Ki0fzLg==","iv":"MOP9iKNfo97yhUn+","ciphertext":"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"}</script>
 <script id="letterCrypto">
 (function (root) {
   'use strict';
@@ -503,6 +588,7 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
   let envelope = embedded;
   let key = null, data = null, epoch = 0, pendingEdit = false, noticeTimer;
   let saveInProgress = false;
+  let pages = [], pageIndex = 0;
   try {
     const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
     if (saved && saved.id === embedded.id && saved.salt === embedded.salt) envelope = cipher.validate(saved);
@@ -516,15 +602,55 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
   function clearInputs() {
     ['toInput', 'bodyInput', 'fromInput', 'passwordInput'].forEach(id => { $(id).value = ''; });
   }
+  function renderLetterPage() {
+    const paragraphs = pages[pageIndex] || [];
+    const firstPage = pageIndex === 0;
+    const lastPage = pageIndex === pages.length - 1;
+    const recipient = $('recipient');
+    const sender = $('sender');
+    recipient.textContent = firstPage ? (data?.to || '') : '';
+    recipient.hidden = !recipient.textContent;
+    sender.textContent = lastPage ? (data?.from || '') : '';
+    sender.hidden = !sender.textContent;
+    $('letterBody').replaceChildren(...paragraphs.map(text => {
+      const paragraph = document.createElement('p');
+      paragraph.textContent = text;
+      return paragraph;
+    }));
+    $('letterEnd').hidden = !lastPage;
+    $('letterPagination').hidden = pages.length < 2;
+    $('letterPageCount').textContent = pages.length > 1 ? `第 ${pageIndex + 1} 页 / 共 ${pages.length} 页` : '';
+    $('letterPrev').disabled = firstPage;
+    $('letterNext').disabled = pageIndex >= pages.length - 1;
+  }
+  function turnPage(offset) {
+    const next = pageIndex + offset;
+    if (!key || next < 0 || next >= pages.length) return;
+    pageIndex = next;
+    renderLetterPage();
+    const page = $('letterPage');
+    page.focus({ preventScroll: true });
+    page.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
+    if (!reduceMotion && page.animate) {
+      page.animate([{ opacity: .35, transform: `translateX(${offset * 8}px)` }, { opacity: 1, transform: 'none' }],
+        { duration: 220, easing: 'ease-out' });
+    }
+  }
   function render() {
     const unlocked = key !== null && data !== null;
     $('privateContent').hidden = !unlocked;
     $('privacyPreview').hidden = unlocked;
     $('lockScreen').hidden = unlocked;
     $('relockButton').classList.toggle('hidden', !unlocked);
-    $('recipient').textContent = unlocked ? data.to : '';
-    $('letterBody').textContent = unlocked ? (data.body || '遇见你之后，平凡的日子也有了值得期待的理由。\n\n想把沿途的晚霞、偶然听到的歌，还有生活里那些微小的快乐，都第一个分享给你。\n\n这封信没有华丽的开场，只有一句想了很久的话：我喜欢你。\n\n想慢慢了解你的世界，也想让你知道，在我的世界里，你一直是很特别的存在。\n\n如果你也愿意，我们就从下一次见面开始，把往后的故事，一起写下去。') : '';
-    $('sender').textContent = unlocked ? data.from : '';
+    $('letterPaper').classList.toggle('is-unsealed', unlocked);
+    pages = [];
+    pageIndex = 0;
+    if (unlocked) {
+      const paragraphs = data.body.trim().split(/\r?\n(?:[ \t]*\r?\n)+/).filter(Boolean);
+      for (let i = 0; i < paragraphs.length; i += 2) pages.push(paragraphs.slice(i, i + 2));
+      if (!pages.length) pages.push([]);
+    }
+    renderLetterPage();
     $('emptyHint').textContent = unlocked ? '纸短情长，等你落笔。' : '这封心意，只等你亲自开启。';
     $('emptyHint').classList.toggle('hidden', unlocked && Boolean(data.body));
   }
@@ -542,7 +668,7 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
     $('cover').classList.add('hidden');
     $('letterView').classList.remove('hidden');
     $('letter').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-    (key ? $('letterPaper') : $('passwordInput')).focus({ preventScroll: true });
+    (key ? $('letterPage') : $('passwordInput')).focus({ preventScroll: true });
   }
   function edit() {
     if (!key) { pendingEdit = true; open(); return; }
@@ -583,13 +709,19 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
     $('unlockButton').textContent = '正在轻轻开启…';
     try {
       if (!crypto.subtle) throw new Error('Crypto unavailable');
-      const result = await cipher.unseal(envelope, password);
+      let result;
+      try {
+        result = await cipher.unseal(envelope, password);
+      } catch (error) {
+        if (error.name !== 'OperationError' || !password.endsWith('！') || session !== epoch) throw error;
+        result = await cipher.unseal(envelope, password.slice(0, -1) + '!');
+      }
       if (session !== epoch) return;
       key = result.key; data = result.data;
       await migrateLegacy(session);
       if (session !== epoch) return;
       render();
-      $('letterPaper').focus({ preventScroll: true });
+      $('letterPage').focus({ preventScroll: true });
       if (pendingEdit) { pendingEdit = false; edit(); }
     } catch {
       if (session !== epoch) return;
@@ -604,6 +736,14 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
   });
   $('openLetter').addEventListener('click', open);
   $('sealButton').addEventListener('click', open);
+  $('letterPrev').addEventListener('click', () => turnPage(-1));
+  $('letterNext').addEventListener('click', () => turnPage(1));
+  $('privateContent').addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    turnPage(event.key === 'ArrowLeft' ? -1 : 1);
+  });
   $('backButton').addEventListener('click', () => {
     lock(); $('letterView').classList.add('hidden'); $('cover').classList.remove('hidden'); $('openLetter').focus();
   });
@@ -672,6 +812,10 @@ body.gentle-paused .motion-visible .letter-friend { animation-play-state: paused
       doc.querySelector('#letterView').classList.add('hidden');
       doc.querySelector('#editor').removeAttribute('open');
       doc.querySelector('#privateContent').hidden = true;
+      doc.querySelector('#letterPaper').classList.remove('is-unsealed');
+      doc.querySelector('#letterPagination').hidden = true;
+      doc.querySelector('#letterPageCount').textContent = '';
+      ['recipient', 'sender', 'letterEnd'].forEach(id => { doc.querySelector('#' + id).hidden = true; });
       doc.querySelector('#privacyPreview').hidden = false;
       doc.querySelector('#lockScreen').hidden = false;
       doc.querySelector('#relockButton').classList.add('hidden');
